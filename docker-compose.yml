@@ -1,0 +1,60 @@
+services:
+
+  cart-service:
+    container_name: Cart-Service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    depends_on:
+      cart-service-db:
+        condition: service_healthy
+      cart-service-redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cart-service-db:5432/cart-service-db
+      SPRING_DATASOURCE_USERNAME: username
+      SPRING_DATASOURCE_PASSWORD: password
+      REDIS_HOST: cart-service-redis
+      REDIS_PORT: 6379
+
+  cart-service-db:
+    image: postgres:17-alpine
+    container_name: Cart-Service-DB
+    environment:
+      POSTGRES_DB: cart-service-db
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5436:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U username -d cart-service-db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - cart-service-db-data:/var/lib/postgresql/data
+
+  cart-service-redis:
+    image: redis:alpine
+    container_name: Cart-Service-Redis
+    ports:
+      - "6381:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - cart-service-redis-data:/data
+
+volumes:
+  cart-service-db-data:
+  cart-service-redis-data:
