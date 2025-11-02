@@ -1,13 +1,11 @@
 package ru.ivanov.ecommerceplatformproject.cartservice.mapper;
 
-import org.springframework.stereotype.Service;
-import ru.ivanov.ecommerceplatformproject.cartservice.dto.CartDto;
-import ru.ivanov.ecommerceplatformproject.cartservice.model.Cart;
+import org.mapstruct.Mapper;
 
-@Service
-public class CartMapper {
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
-    public CartDto toDto(Cart cart) {
-        return new CartDto(cart.getId(), cart.getUserId());
-    }
+@Mapper(componentModel = SPRING)
+public interface CartMapper {
+
+    //todo
 }

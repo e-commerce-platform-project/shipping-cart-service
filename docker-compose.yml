@@ -17,7 +17,7 @@ services:
       cart-service-redis:
         condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
       SPRING_DATASOURCE_URL: jdbc:postgresql://cart-service-db:5432/cart-service-db
       SPRING_DATASOURCE_USERNAME: username

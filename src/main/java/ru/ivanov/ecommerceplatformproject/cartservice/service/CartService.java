@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CartService {
-    Cart createCart(UUID userId);
+    void createCart(UUID userId);
     Cart getCart(UUID userId);
-    List<CartProductItemDto> getCartItems(UUID userId);
+    List<CartProductItemDto> getUserCartItems(UUID userId);
     CartProductItemDto addItemToCart(UUID userId, UUID productId);
     CartProductItemDto decreaseItemQuantityInCart(UUID userId, UUID productId);
     void removeItemFromCart(UUID userId, UUID productId);

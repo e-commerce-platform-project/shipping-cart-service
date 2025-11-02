@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 import static ru.ivanov.ecommerceplatformproject.cartservice.util.MessageUtils.CART_NOT_FOUND;
 
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -45,28 +44,24 @@ public class CartServiceImpl implements CartService {
     private static final String PRODUCT_CACHE_NAME = "products";
 
     @Override
-    @CachePut(value = CART_CACHE_NAME, key = "#userId")
-    @Transactional
-    public Cart createCart(UUID userId) {
-        Cart cart = new Cart(userId);
-        cartRepository.save(cart);
-        return cart;
+//    @CachePut(value = CART_CACHE_NAME, key = "#userId")
+    public void createCart(UUID userId) {
+        cartRepository.save(new Cart(userId));
     }
 
     @Override
-    @Cacheable(value = CART_CACHE_NAME, key = "#userId")
-    @Transactional(readOnly = true)
+//    @Cacheable(value = CART_CACHE_NAME, key = "#userId")
     public Cart getCart(UUID userId) {
         return cartRepository.findCartByUserId(userId)
                 .orElseThrow(() -> new CartNotFoundException(CART_NOT_FOUND.formatted(userId)));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<CartProductItemDto> getCartItems(UUID userId) {
+    public List<CartProductItemDto> getUserCartItems(UUID userId) {
         Cart cart = self.getCart(userId);
 
-        List<CartItem> cartItems = cartItemService.getAllItemsByCartId(cart.getId());
+//        List<CartItem> cartItems = cartItemService.getAllItemsByCartId(cart.getId());
+        List<CartItem> cartItems = cart.getCartItems();
 
         Map<UUID, Integer> productQuantities = cartItems.stream()
                 .collect(Collectors.toMap(
@@ -216,7 +211,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @CacheEvict(value = CART_CACHE_NAME, key = "#userId")
+//    @CacheEvict(value = CART_CACHE_NAME, key = "#userId")
     @Transactional
     public void deleteCartAndAllItems(UUID userId) {
         Cart cart = self.getCart(userId);

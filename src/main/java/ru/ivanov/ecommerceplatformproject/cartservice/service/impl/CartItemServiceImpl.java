@@ -40,7 +40,6 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<CartItem> getAllItemsByCartId(UUID cartId) {
         return cartItemRepository.findAllByCartId(cartId);
     }
