@@ -5,14 +5,14 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 
-    <changeSet id="v1-create-carts_products-table" author="Anton_Ivanov">
-        <preConditions onFail="CONTINUE" onFailMessage="Table carts_products already exist">
+    <changeSet id="v1-create-cart_items-table" author="Anton_Ivanov">
+        <preConditions onFail="CONTINUE" onFailMessage="Table cart_items already exist">
             <not>
-                <tableExists tableName="carts_products"/>
+                <tableExists tableName="cart_items"/>
             </not>
         </preConditions>
 
-        <createTable tableName="carts_products">
+        <createTable tableName="cart_items">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
@@ -27,14 +27,14 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="carts_products" baseColumnNames="cart_id"
+        <addForeignKeyConstraint baseTableName="cart_items" baseColumnNames="cart_id"
                                  constraintName="cart_id_fk"
                                  referencedTableName="carts"
                                  referencedColumnNames="id"
         />
 
         <rollback>
-            <dropTable tableName="carts_products"/>
+            <dropTable tableName="cart_items"/>
         </rollback>
     </changeSet>
 

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.ivanov.ecommerceplatformproject.cartservice.exception.*;
-import ru.ivanov.ecommerceplatformproject.common.dto.response.ErrorResponse;
+import ru.ivanov.ecommerceplatformproject.sharedlibs.dto.response.ErrorResponse;
 
 import java.time.LocalDateTime;
 

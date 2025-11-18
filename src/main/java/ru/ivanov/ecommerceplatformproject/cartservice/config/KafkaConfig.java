@@ -30,13 +30,6 @@ public class KafkaConfig {
 
     private final Environment environment;
 
-//    @Bean
-//    public ProducerFactory<String, Object> producerFactory() {
-//        Map<String, Object> config = new HashMap<>();
-//        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, environment.getProperty("spring.kafka.bootstrap-servers"));
-//        config.put(ProducerConfig.)
-//    }
-
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -47,6 +40,9 @@ public class KafkaConfig {
         config.put(JsonDeserializer.TRUSTED_PACKAGES,
                 environment.getProperty("spring.kafka.consumer.properties.spring.json.trusted.packages"));
         config.put(ConsumerConfig.GROUP_ID_CONFIG, environment.getRequiredProperty("spring.kafka.consumer.group-id"));
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, environment.getRequiredProperty("spring.kafka.consumer.auto-offset-reset"));
+        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, environment.getRequiredProperty("spring.kafka.consumer.enable-auto-commit"));
+        config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, environment.getRequiredProperty("spring.kafka.consumer.max-poll-records"));
 
         return new DefaultKafkaConsumerFactory<>(config);
     }

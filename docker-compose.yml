@@ -25,22 +25,7 @@ services:
       REDIS_HOST: cart-service-redis
       REDIS_PORT: 6379
 
-  cart-service-db:
-    image: postgres:17-alpine
-    container_name: Cart-Service-DB
-    environment:
-      POSTGRES_DB: cart-service-db
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5436:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username -d cart-service-db" ]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    volumes:
-      - cart-service-db-data:/var/lib/postgresql/data
+
 
   cart-service-redis:
     image: redis:alpine
