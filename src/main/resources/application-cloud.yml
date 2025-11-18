@@ -1,0 +1,10 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+management:
+  server:
+    port: 8080
